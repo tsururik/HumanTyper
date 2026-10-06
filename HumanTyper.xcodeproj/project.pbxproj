@@ -1,0 +1,492 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A7E1000000000000000000B1 /* TypingEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E100000000000000000011 /* TypingEngine.framework */; };
+		A7E1000000000000000000B2 /* TypingEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E100000000000000000011 /* TypingEngine.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A7E1000000000000000000C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A7E100000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A7E100000000000000000031;
+			remoteInfo = TypingEngine;
+		};
+		A7E1000000000000000000C2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A7E100000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A7E100000000000000000031;
+			remoteInfo = TypingEngine;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A7E100000000000000000010 /* HumanTyper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HumanTyper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7E100000000000000000011 /* TypingEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TypingEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7E100000000000000000012 /* TypingEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TypingEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7E100000000000000000013 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		A7E100000000000000000021 /* HumanTyper */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = HumanTyper;
+			sourceTree = "<group>";
+		};
+		A7E100000000000000000022 /* TypingEngine */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TypingEngine;
+			sourceTree = "<group>";
+		};
+		A7E100000000000000000023 /* TypingEngineTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TypingEngineTests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A7E100000000000000000041 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7E1000000000000000000B1 /* TypingEngine.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7E100000000000000000042 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7E100000000000000000043 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7E1000000000000000000B2 /* TypingEngine.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A7E100000000000000000002 = {
+			isa = PBXGroup;
+			children = (
+				A7E100000000000000000013 /* README.md */,
+				A7E100000000000000000021 /* HumanTyper */,
+				A7E100000000000000000022 /* TypingEngine */,
+				A7E100000000000000000023 /* TypingEngineTests */,
+				A7E100000000000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A7E100000000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A7E100000000000000000010 /* HumanTyper.app */,
+				A7E100000000000000000011 /* TypingEngine.framework */,
+				A7E100000000000000000012 /* TypingEngineTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A7E100000000000000000030 /* HumanTyper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A7E100000000000000000061 /* Build configuration list for PBXNativeTarget "HumanTyper" */;
+			buildPhases = (
+				A7E100000000000000000051 /* Sources */,
+				A7E100000000000000000041 /* Frameworks */,
+				A7E100000000000000000054 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A7E1000000000000000000D1 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A7E100000000000000000021 /* HumanTyper */,
+			);
+			name = HumanTyper;
+			packageProductDependencies = (
+			);
+			productName = HumanTyper;
+			productReference = A7E100000000000000000010 /* HumanTyper.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A7E100000000000000000031 /* TypingEngine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A7E100000000000000000062 /* Build configuration list for PBXNativeTarget "TypingEngine" */;
+			buildPhases = (
+				A7E100000000000000000052 /* Sources */,
+				A7E100000000000000000042 /* Frameworks */,
+				A7E100000000000000000055 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A7E100000000000000000022 /* TypingEngine */,
+			);
+			name = TypingEngine;
+			packageProductDependencies = (
+			);
+			productName = TypingEngine;
+			productReference = A7E100000000000000000011 /* TypingEngine.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		A7E100000000000000000032 /* TypingEngineTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A7E100000000000000000063 /* Build configuration list for PBXNativeTarget "TypingEngineTests" */;
+			buildPhases = (
+				A7E100000000000000000053 /* Sources */,
+				A7E100000000000000000043 /* Frameworks */,
+				A7E100000000000000000056 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A7E1000000000000000000D2 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A7E100000000000000000023 /* TypingEngineTests */,
+			);
+			name = TypingEngineTests;
+			packageProductDependencies = (
+			);
+			productName = TypingEngineTests;
+			productReference = A7E100000000000000000012 /* TypingEngineTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A7E100000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2700;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					A7E100000000000000000030 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					A7E100000000000000000031 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					A7E100000000000000000032 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+				};
+			};
+			buildConfigurationList = A7E100000000000000000060 /* Build configuration list for PBXProject "HumanTyper" */;
+			developmentRegion = ru;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				ru,
+				en,
+				Base,
+			);
+			mainGroup = A7E100000000000000000002;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A7E100000000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A7E100000000000000000030 /* HumanTyper */,
+				A7E100000000000000000031 /* TypingEngine */,
+				A7E100000000000000000032 /* TypingEngineTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A7E100000000000000000054 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7E100000000000000000055 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7E100000000000000000056 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A7E100000000000000000051 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7E100000000000000000052 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7E100000000000000000053 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A7E1000000000000000000D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A7E100000000000000000031 /* TypingEngine */;
+			targetProxy = A7E1000000000000000000C1 /* PBXContainerItemProxy */;
+		};
+		A7E1000000000000000000D2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A7E100000000000000000031 /* TypingEngine */;
+			targetProxy = A7E1000000000000000000C2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A7E100000000000000000071 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		A7E100000000000000000072 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		A7E100000000000000000073 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = HumanTyper;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.humantyper.HumanTyper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		A7E100000000000000000074 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = HumanTyper;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.humantyper.HumanTyper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+		A7E100000000000000000075 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.humantyper.TypingEngine;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		A7E100000000000000000076 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.humantyper.TypingEngine;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		A7E100000000000000000077 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.humantyper.TypingEngineTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A7E100000000000000000078 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.humantyper.TypingEngineTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A7E100000000000000000060 /* Build configuration list for PBXProject "HumanTyper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7E100000000000000000071 /* Debug */,
+				A7E100000000000000000072 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A7E100000000000000000061 /* Build configuration list for PBXNativeTarget "HumanTyper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7E100000000000000000073 /* Debug */,
+				A7E100000000000000000074 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A7E100000000000000000062 /* Build configuration list for PBXNativeTarget "TypingEngine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7E100000000000000000075 /* Debug */,
+				A7E100000000000000000076 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A7E100000000000000000063 /* Build configuration list for PBXNativeTarget "TypingEngineTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7E100000000000000000077 /* Debug */,
+				A7E100000000000000000078 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A7E100000000000000000001 /* Project object */;
+}

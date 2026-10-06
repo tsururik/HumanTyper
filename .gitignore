@@ -1,0 +1,12 @@
+# Сборка
+build/
+dist/
+DerivedData/
+
+# Xcode
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+
+# macOS
+.DS_Store
