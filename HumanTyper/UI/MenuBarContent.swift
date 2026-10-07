@@ -7,7 +7,7 @@ struct MenuBarLabel: View {
 
     var body: some View {
         switch controller.phase {
-        case .countdown(let secondsLeft, _):
+        case .countdown(let secondsLeft):
             Label("\(secondsLeft)", systemImage: "timer")
                 .labelStyle(.titleAndIcon)
         case .typing:
@@ -80,7 +80,7 @@ struct MenuBarContent: View {
             controller.text.isEmpty
                 ? "Текст не задан"
                 : "Готов: \(Formatting.characters(controller.text.count))"
-        case .countdown(let secondsLeft, _):
+        case .countdown(let secondsLeft):
             "Старт через \(secondsLeft)…"
         case .typing:
             if let left = controller.breakSecondsLeft {
@@ -88,8 +88,10 @@ struct MenuBarContent: View {
             } else {
                 "Набор: \(controller.typedCount)/\(controller.totalCount), осталось ≈ \(Formatting.clock(controller.remainingTime))"
             }
-        case .paused:
+        case .paused(.user):
             "Пауза: \(controller.typedCount)/\(controller.totalCount)"
+        case .paused(.focusLost):
+            "Ждёт возвращения в окно: \(controller.typedCount)/\(controller.totalCount)"
         }
     }
 

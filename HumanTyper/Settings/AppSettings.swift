@@ -13,6 +13,7 @@ enum SettingsKey {
     static let breakForMax = "breakForMax"
     static let theme = "theme"
     static let hideWindowOnStart = "hideWindowOnStart"
+    static let autoResume = "autoResume"
     static let startHotkey = "startHotkey"
     static let pauseHotkey = "pauseHotkey"
     static let sourceText = "sourceText"
@@ -29,6 +30,7 @@ enum AppDefaults {
     static let breakForMin = 3
     static let breakForMax = 15
     static let hideWindowOnStart = true
+    static let autoResume = true
 
     static let wordsPerMinuteRange = TypingSettings.wordsPerMinuteRange
     static let typoPercentRange = 0.0...20.0
@@ -47,6 +49,7 @@ enum AppDefaults {
             SettingsKey.breakForMax: breakForMax,
             SettingsKey.theme: AppTheme.system.rawValue,
             SettingsKey.hideWindowOnStart: hideWindowOnStart,
+            SettingsKey.autoResume: autoResume,
             SettingsKey.startHotkey: Hotkey.defaultStart.rawValue,
             SettingsKey.pauseHotkey: Hotkey.defaultPause.rawValue,
         ])

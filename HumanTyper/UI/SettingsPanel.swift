@@ -14,6 +14,7 @@ struct SettingsPanel: View {
     @AppStorage(SettingsKey.breakForMax) private var breakForMax = AppDefaults.breakForMax
     @AppStorage(SettingsKey.theme) private var theme: AppTheme = .system
     @AppStorage(SettingsKey.hideWindowOnStart) private var hideWindowOnStart = AppDefaults.hideWindowOnStart
+    @AppStorage(SettingsKey.autoResume) private var autoResume = AppDefaults.autoResume
     @AppStorage(SettingsKey.startHotkey) private var startHotkey: Hotkey = .defaultStart
     @AppStorage(SettingsKey.pauseHotkey) private var pauseHotkey: Hotkey = .defaultPause
 
@@ -38,7 +39,12 @@ struct SettingsPanel: View {
                         .font(.caption)
                 }
                 Toggle("Скрывать HumanTyper на время отсчёта", isOn: $hideWindowOnStart)
-                caption("Фокус вернётся в приложение, где вы работали до этого. Если активное приложение сменится во время набора, он встанет на паузу.")
+                caption("Фокус вернётся в приложение, где вы работали до этого.")
+            }
+
+            Section("Привязка к окну") {
+                Toggle("Продолжать, когда вернётесь в окно", isOn: $autoResume)
+                caption("Набор печатает только в окно (и вкладку браузера), где он начался. Ушли в другое приложение, окно или вкладку — пауза. Вернулись — через секунду набор продолжится сам. Если выключить, продолжать нужно вручную через \(pauseHotkey.displayString).")
             }
 
             Section("Оформление") {

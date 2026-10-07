@@ -120,18 +120,15 @@ struct SessionStatusView: View {
                         .foregroundStyle(.secondary)
                 }
 
-            case .countdown(let secondsLeft, let resuming):
+            case .countdown(let secondsLeft):
                 HStack(spacing: 14) {
                     Text("\(secondsLeft)")
                         .font(.system(size: 34, weight: .bold, design: .rounded))
                         .monospacedDigit()
                         .foregroundStyle(Color.accentColor)
-                    Text(resuming
-                         ? "Вернитесь в окно, где шёл набор…"
-                         : "Переключитесь в окно и поставьте курсор в поле ввода…")
+                    Text("Переключитесь в окно и поставьте курсор в поле ввода — набор привяжется к нему.")
                         .foregroundStyle(.secondary)
                 }
-                progress
 
             case .typing:
                 progress
@@ -140,13 +137,16 @@ struct SessionStatusView: View {
                         .foregroundStyle(.secondary)
                 }
 
-            case .paused(let reason):
+            case .paused(.user):
                 progress
-                Label(reason == .user ? "Пауза" : (controller.notice ?? "Пауза"), systemImage: "pause.circle.fill")
+                Label("Пауза. Нажмите \(controller.pauseHotkey.displayString) в том же окне, чтобы продолжить.",
+                      systemImage: "pause.circle.fill")
                     .foregroundStyle(.orange)
-                if reason == .user, let notice = controller.notice {
-                    Text(notice).font(.caption).foregroundStyle(.secondary)
-                }
+
+            case .paused(.focusLost):
+                progress
+                Label(controller.notice ?? "Набор на паузе.", systemImage: "lock.circle.fill")
+                    .foregroundStyle(.orange)
             }
         }
         .frame(maxWidth: .infinity, minHeight: 64, alignment: .leading)
@@ -159,8 +159,11 @@ struct SessionStatusView: View {
             HStack {
                 Text("Набрано \(controller.typedCount) из \(controller.totalCount)")
                 Spacer()
-                if let app = controller.targetAppName {
-                    Text("→ \(app)").lineLimit(1)
+                if let target = controller.targetDescription {
+                    Label(target, systemImage: "lock.fill")
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                        .help("Набор привязан к этому окну и печатает только в него")
                 }
                 Text("Осталось ≈ \(Formatting.clock(controller.remainingTime))")
             }

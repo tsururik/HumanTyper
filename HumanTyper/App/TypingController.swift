@@ -3,20 +3,22 @@ import Combine
 import TypingEngine
 
 /// Состояние приложения и оркестрация набора: обратный отсчёт, запуск исполнителя,
-/// пауза/продолжение, экстренная остановка, автопауза при смене активного приложения.
+/// пауза/продолжение, экстренная остановка, привязка к окну и вкладке.
 @MainActor
 final class TypingController: ObservableObject {
     enum Phase: Equatable {
         case idle
-        case countdown(secondsLeft: Int, resuming: Bool)
+        case countdown(secondsLeft: Int)
         case typing
         case paused(PauseReason)
         case finished
     }
 
     enum PauseReason: Equatable {
+        /// Пауза по ⌃⌥P или кнопке — продолжается только вручную.
         case user
-        case appSwitched(to: String)
+        /// Фокус ушёл с привязанного окна или вкладки.
+        case focusLost
     }
 
     static let countdownSeconds = 3
@@ -29,7 +31,8 @@ final class TypingController: ObservableObject {
     @Published private(set) var totalCount = 0
     @Published private(set) var remainingTime: TimeInterval = 0
     @Published private(set) var breakSecondsLeft: TimeInterval?
-    @Published private(set) var targetAppName: String?
+    /// К чему привязан набор: «Google Chrome — «Документ»».
+    @Published private(set) var targetDescription: String?
     /// Последнее сообщение для пользователя (ошибка, итог набора, подсказка).
     @Published private(set) var notice: String?
     @Published private(set) var hotkeyWarning: String?
@@ -42,16 +45,17 @@ final class TypingController: ObservableObject {
     private let escapeMonitor = EscapeMonitor()
 
     private var runner: TypingRunner?
+    private var targetLock: TargetLock?
     private var eventsTask: Task<Void, Never>?
     private var countdownTask: Task<Void, Never>?
-    private var targetPID: pid_t?
-    private var pausedReason: PauseReason = .user
-    private var activationObserver: NSObjectProtocol?
+    private var isOwnMenuOpen = false
+    private var menuObservers: [NSObjectProtocol] = []
 
     init(permission: AccessibilityPermission) {
         self.permission = permission
         text = UserDefaults.standard.string(forKey: SettingsKey.sourceText) ?? ""
         reloadHotkeys()
+        observeOwnMenus()
     }
 
     // MARK: - Состояние для интерфейса
@@ -94,26 +98,46 @@ final class TypingController: ObservableObject {
         }
         typedCount = 0
         totalCount = 0
-        targetAppName = nil
+        targetDescription = nil
         escapeMonitor.start { [weak self] in self?.stop() }
         if isOwnAppFrontmost {
-            runCountdown(resuming: false)
+            runCountdown()
         } else {
             beginTyping()
         }
     }
 
+    /// Ручная пауза. Работает и когда набор уже стоит из-за ухода из окна —
+    /// тогда он не продолжится сам при возвращении.
     func pause() {
-        pause(reason: .user)
+        switch phase {
+        case .typing, .paused(.focusLost):
+            runner?.pause()
+            phase = .paused(.user)
+            notice = nil
+        default:
+            break
+        }
     }
 
+    /// Продолжение после любой паузы. Печатать набор всё равно будет только в привязанное
+    /// окно: если активно другое, он дождётся возвращения.
     func resume() {
-        guard case .paused(let reason) = phase else { return }
-        pausedReason = reason
-        if isOwnAppFrontmost {
-            runCountdown(resuming: true)
+        guard case .paused = phase, let runner, let targetLock else { return }
+        if isOwnAppFrontmost, hideWindowOnStart {
+            // Фокус вернётся в приложение, где шёл набор.
+            NSApp.hide(nil)
+        }
+        // ⌃⌥P в привязанном окне — подтверждение «курсор на месте», даже если
+        // страница сама сменила заголовок вкладки.
+        targetLock.acceptCurrentTab()
+        runner.resume()
+        let status = targetLock.check()
+        if status == .onTarget {
+            phase = .typing
+            notice = nil
         } else {
-            continueTyping()
+            showFocusLost(status)
         }
     }
 
@@ -171,21 +195,21 @@ final class TypingController: ObservableObject {
         defaults.bool(forKey: SettingsKey.hideWindowOnStart)
     }
 
-    private func runCountdown(resuming: Bool) {
+    private var autoResume: Bool {
+        defaults.bool(forKey: SettingsKey.autoResume)
+    }
+
+    private func runCountdown() {
         // Скрываем HumanTyper: macOS сама вернёт фокус приложению, которое было активно до него.
         if hideWindowOnStart { NSApp.hide(nil) }
         countdownTask?.cancel()
         countdownTask = Task { [weak self] in
             for second in stride(from: Self.countdownSeconds, through: 1, by: -1) {
-                self?.phase = .countdown(secondsLeft: second, resuming: resuming)
+                self?.phase = .countdown(secondsLeft: second)
                 try? await Task.sleep(for: .seconds(1))
                 if Task.isCancelled { return }
             }
-            if resuming {
-                self?.continueTyping()
-            } else {
-                self?.beginTyping()
-            }
+            self?.beginTyping()
         }
     }
 
@@ -200,8 +224,14 @@ final class TypingController: ObservableObject {
             return
         }
 
-        targetPID = target.processIdentifier
-        targetAppName = target.localizedName ?? "приложение"
+        let lock = TargetLock(
+            pid: target.processIdentifier,
+            appName: target.localizedName ?? "приложение",
+            bundleID: target.bundleIdentifier,
+            isOwnMenuOpen: isOwnMenuOpen
+        )
+        targetLock = lock
+        targetDescription = lock.windowTitle.map { "\(lock.appName) — «\($0)»" } ?? lock.appName
 
         let plan = TypingEngine(settings: AppDefaults.typingSettings(from: defaults)).makePlan(for: text)
         totalCount = plan.characterCount
@@ -209,9 +239,8 @@ final class TypingController: ObservableObject {
         remainingTime = plan.totalDuration
         breakSecondsLeft = nil
 
-        let runner = TypingRunner(plan: plan, output: output)
+        let runner = TypingRunner(plan: plan, output: output, target: lock)
         self.runner = runner
-        observeAppActivation()
         phase = .typing
 
         eventsTask = Task { [weak self] in
@@ -222,31 +251,6 @@ final class TypingController: ObservableObject {
         runner.start()
     }
 
-    /// Продолжение после паузы — только если снова активно целевое приложение,
-    /// иначе текст ушёл бы в чужое окно.
-    private func continueTyping() {
-        guard let targetPID, NSWorkspace.shared.frontmostApplication?.processIdentifier == targetPID else {
-            phase = .paused(pausedReason)
-            notice = "Чтобы продолжить, вернитесь в «\(targetAppName ?? "целевое приложение")» и нажмите \(pauseHotkey.displayString)."
-            return
-        }
-        notice = nil
-        phase = .typing
-        runner?.resume()
-    }
-
-    private func pause(reason: PauseReason) {
-        guard phase == .typing else { return }
-        runner?.pause()
-        phase = .paused(reason)
-        switch reason {
-        case .user:
-            notice = nil
-        case .appSwitched(let name):
-            notice = "Активным стало «\(name)» — набор на паузе, чтобы текст не ушёл в чужое окно."
-        }
-    }
-
     private func handle(_ event: TypingRunnerEvent) {
         guard runner != nil else { return }
         switch event {
@@ -255,13 +259,45 @@ final class TypingController: ObservableObject {
             remainingTime = remaining
         case .breakChanged(let secondsLeft):
             breakSecondsLeft = secondsLeft
+        case .focusLost(let status):
+            // Ручную паузу не подменяем: она снимается только пользователем.
+            guard phase == .typing || phase == .paused(.focusLost) else { return }
+            if !autoResume { runner?.pause() }
+            showFocusLost(status)
+        case .focusReturning:
+            if phase == .paused(.focusLost), autoResume {
+                notice = "Вы вернулись — продолжу через секунду…"
+            }
+        case .focusRestored:
+            if phase == .paused(.focusLost) {
+                phase = .typing
+                notice = nil
+            }
         case .completed:
             typedCount = totalCount
             remainingTime = 0
-            endSession(phase: .finished, notice: "Готово! Набрано в «\(targetAppName ?? "приложение")»: \(Formatting.characters(totalCount)).")
+            endSession(phase: .finished, notice: "Готово! Набрано в «\(targetLock?.appName ?? "приложение")»: \(Formatting.characters(totalCount)).")
         case .cancelled:
             break
         }
+    }
+
+    private func showFocusLost(_ status: TargetLock.Status) {
+        phase = .paused(.focusLost)
+        let place = targetLock.map { "«\($0.appName)»" } ?? "нужное окно"
+        let reason: String
+        switch status {
+        case .otherApp(let name): reason = "Активно «\(name)»."
+        case .otherWindow: reason = "Открыто другое окно \(place)."
+        case .otherTab: reason = "Открыта другая вкладка в \(place)."
+        case .ownMenu: reason = "Открыто меню HumanTyper."
+        case .unknown: reason = "Не удалось определить активное окно."
+        case .onTarget: reason = ""
+        }
+        let next = autoResume
+            ? "Вернитесь в то же окно — продолжу сам."
+            : "Вернитесь в то же окно и нажмите \(pauseHotkey.displayString)."
+        notice = "\(reason) Набор на паузе, чтобы текст не ушёл не туда. \(next)"
     }
 
     private func endSession(phase newPhase: Phase, notice message: String) {
@@ -270,37 +306,23 @@ final class TypingController: ObservableObject {
         eventsTask?.cancel()
         eventsTask = nil
         runner = nil
-        targetPID = nil
+        targetLock = nil
         breakSecondsLeft = nil
         escapeMonitor.stop()
-        if let activationObserver {
-            NSWorkspace.shared.notificationCenter.removeObserver(activationObserver)
-        }
-        activationObserver = nil
         phase = newPhase
         notice = message
     }
 
-    private func observeAppActivation() {
-        if let activationObserver {
-            NSWorkspace.shared.notificationCenter.removeObserver(activationObserver)
+    /// Пока открыто меню HumanTyper (в строке меню), нажатия попали бы в него.
+    private func observeOwnMenus() {
+        let center = NotificationCenter.default
+        for (name, isOpen) in [(NSMenu.didBeginTrackingNotification, true), (NSMenu.didEndTrackingNotification, false)] {
+            menuObservers.append(center.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
+                MainActor.assumeIsolated {
+                    self?.isOwnMenuOpen = isOpen
+                    self?.targetLock?.setOwnMenuOpen(isOpen)
+                }
+            })
         }
-        activationObserver = NSWorkspace.shared.notificationCenter.addObserver(
-            forName: NSWorkspace.didActivateApplicationNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] notification in
-            let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication
-            let pid = app?.processIdentifier
-            let name = app?.localizedName ?? "другое приложение"
-            MainActor.assumeIsolated {
-                self?.applicationActivated(pid: pid, name: name)
-            }
-        }
-    }
-
-    private func applicationActivated(pid: pid_t?, name: String) {
-        guard phase == .typing, let targetPID, pid != targetPID else { return }
-        pause(reason: .appSwitched(to: name))
     }
 }
